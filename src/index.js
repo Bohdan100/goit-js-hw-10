@@ -23,6 +23,7 @@ refs.input.addEventListener('input', debounce(onSearchKeydown, DEBOUNCE_DELAY));
 let searchResult = '';
 
 // 1. Получить значение введеных букв поиска в поле input
+// В ВАРИАНТЕ 2 ДОБАВИТЬ ПЕРЕД function onSearchKeydown - async !!!
 function onSearchKeydown(evt) {
   evt.preventDefault();
 
@@ -30,6 +31,8 @@ function onSearchKeydown(evt) {
   searchResult = evt.target.value.trim().toLowerCase();
   console.log('searchResult', searchResult);
 
+  // 1 ВАРИАНТ - ЧЕРЕЗ return fetch - обычный http-запрос
+  // Здесь then и catch
   if (searchResult !== '') {
     fetchCountries(searchResult).then(renderCountriesCards).catch(
       onFetchError
@@ -40,6 +43,20 @@ function onSearchKeydown(evt) {
     refs.countryList.innerHTML = '';
     refs.countryInfo.innerHTML = '';
   }
+
+  // 2 ВАРИАНТ - с asyns и await - АСИНХРОННОЙ ФУНКЦИЕЙ
+  // Здесь try и catch
+  // if (searchResult !== '') {
+  //   try {
+  //     const murkupCountries = await fetchCountries(searchResult);
+  //     renderCountriesCards(murkupCountries);
+  //   } catch {
+  //     onFetchError();
+  //   }
+  // } else {
+  //   refs.countryList.innerHTML = '';
+  //   refs.countryInfo.innerHTML = '';
+  // }
 }
 
 // 2. Обработать http-запрос и зарендерить разметку
@@ -83,7 +100,7 @@ function renderSmallCountriesCards(countries) {
 }
 
 // Функция - вывести одну большую карточку с 1 страной
-export default function renderOneBiggerCountriesCard(countries) {
+function renderOneBiggerCountriesCard(countries) {
   // Очистить разметку списка стран, чтоб не остался
   // когда пользователь добавит очередную букву в поиске
   refs.countryList.innerHTML = '';

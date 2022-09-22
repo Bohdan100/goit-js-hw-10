@@ -5,7 +5,9 @@
 const BASE_URL = 'https://restcountries.com/v3.1/name';
 const filterFields = 'flags,name,capital,population,languages';
 
-// Дефолтный экспорт
+// export default - дефолтный экспорт
+
+// 1 ВАРИАНТ - ЧЕРЕЗ return fetch - обычный http-запрос get
 export default function fetchCountries(name) {
   // Шаблонная строка с переменными
   return fetch(`${BASE_URL}/${name}?fields=${filterFields}`).then(response => {
@@ -16,7 +18,13 @@ export default function fetchCountries(name) {
   });
 }
 
-// РАБОЧИЙ ВАРИАНТ
+// 2 ВАРИАНТ - с asyns и await - АСИНХРОННОЙ ФУНКЦИЕЙ
+// export default async function fetchCountries(name) {
+//   const response = await fetch(`${BASE_URL}/${name}?fields=${filterFields}`);
+//   return await response.json();
+// }
+
+// 1 ВАРИАНТ - без сокращений http-запроса в отдельные переменные
 // function fetchCountries(name) {
 //   return fetch(
 //     `https://restcountries.com/v3.1/name/${name}?fields=flags,name,capital,population,languages`
