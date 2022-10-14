@@ -11,6 +11,9 @@ const filterFields = 'flags,name,capital,population,languages';
 export default function fetchCountries(name) {
   // Шаблонная строка с переменными
   return fetch(`${BASE_URL}/${name}?fields=${filterFields}`).then(response => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
     // console.log(response.json());
     return response.json();
     // response.text();
